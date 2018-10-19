@@ -22,8 +22,9 @@ infile=args.infile
 ### the matrix that correspond to the comparison of that two samples.
 def CompareLineLoop(line, n, matrix):
     i=0
-    while i < (n-1):
+    while i < n:
         if line[i]==1:
+            matrix[i,i]+=1
             y=i+1
             while y < n:
                 if line[i]==line[y]:
