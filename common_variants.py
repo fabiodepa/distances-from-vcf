@@ -54,6 +54,15 @@ def CleanSampleInfo(line):
         y+=1
     return array
 
+# This function prints a matrix in output
+def PrintMatrix(matrix, names):
+    y=0
+    print("" + '\t' + '\t'.join(names))
+    for i in matrix:
+        print(names[y] + '\t' + '\t'.join(map(str, i)))
+        y+=1
+    return
+
 def main():
     f=open(infile, 'r')
     for line in f:
@@ -65,7 +74,7 @@ def main():
             samplenames=line[(firstsample):]
             samplenum=len(samplenames)
             # create matrix
-            matrix=numpy.zeros((samplenum,samplenum), dtype=numpy.int)
+            sharedmatrix=numpy.zeros((samplenum,samplenum), dtype=numpy.int)
         elif line[:2]=='##':
             pass
         else:
@@ -73,13 +82,28 @@ def main():
             line=line.split('\t')
             samplefields=line[(firstsample):]
             samplevars=CleanSampleInfo(samplefields)
-            CompareLineLoop(samplevars, samplenum, matrix)
+            CompareLineLoop(samplevars, samplenum, sharedmatrix)
 
+    # compute distances
+    distancesmatrix=numpy.zeros((samplenum,samplenum), dtype=numpy.int)
+    i=0
     y=0
-    print("" + '\t' + '\t'.join(samplenames))
-    for i in matrix:
-        print(samplenames[y] + '\t' + '\t'.join(map(str, i)))
-        y+=1
+    for line in sharedmatrix:
+        y=0
+        thislineref=sharedmatrix[i,i]
+        for item in line:
+            thisitemref=sharedmatrix[y,y]
+            distancesmatrix[i,y]=thislineref+thisitemref-(2*sharedmatrix[i,y])
+            y+=1
+        i+=1
+    # OUTPUT session
+    ## print matrix of shared variants
+    print("Shared")
+    PrintMatrix(sharedmatrix, samplenames)
+
+    ## print matrix of distances between samples
+    print("\nDistances")
+    PrintMatrix(distancesmatrix, samplenames)
     return
 
 if __name__ == '__main__':
