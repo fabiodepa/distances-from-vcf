@@ -8,7 +8,7 @@
 
 import sys, numpy, re, argparse
 
-parser=argparse.ArgumentParser(description="This program takes as input a vcf file multisample and output a matrix of number of variants shared in pairwise comparison")
+parser=argparse.ArgumentParser(description="This program takes as input a vcf file multisample and output a matrix of number of variants shared in a pairwise comparison of samples")
 parser.add_argument("-f", "--file", dest="infile", required=True, help="multisample vcf file")
 parser.add_argument("-s", action='store_true', help="Design a symmetric matrix")
 args=parser.parse_args()
