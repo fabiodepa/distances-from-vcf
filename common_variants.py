@@ -14,8 +14,6 @@ parser.add_argument("-s", action='store_true', help="Design a symmetric matrix")
 args=parser.parse_args()
 infile=args.infile
 
-args=parser.parse_args()
-infile=args.infile
 
 # the function CompareLineLoop scroll through the elements of a list in search of
 ### 1 where founded it searches other 1 in the list and add 1 to the position in
